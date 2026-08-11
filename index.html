@@ -290,23 +290,23 @@
   .journey .sec-eyebrow{color:var(--nv)}
   .journey h2{color:var(--hero-ink)}
   .journey .sec-lede{color:var(--hero-sub)}
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:44px;align-items:end}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:44px}
   .step{
     border-left:1px solid var(--hero-line);
     padding:22px 20px 0;position:relative;
+    display:flex;flex-direction:column;
   }
-  .step::before{content:"";display:block;height:var(--rise,0px)}
   .step-num{
     font-family:"JetBrains Mono",Consolas,monospace;
     font-size:.75rem;color:var(--nv);letter-spacing:.14em;
   }
   .step h3{color:var(--hero-ink);font-size:1rem;margin-top:8px;line-height:1.5}
   .step .period{font-size:.76rem;color:var(--hero-sub);margin-top:4px}
-  .step ul{margin:14px 0 0;padding-left:16px;color:var(--hero-sub);font-size:.84rem;line-height:1.7}
+  .step ul{margin:14px 0 22px;padding-left:16px;color:var(--hero-sub);font-size:.84rem;line-height:1.7}
   .step li{margin:6px 0}
   .step li b{color:var(--hero-ink);font-weight:700}
   .step-bar{
-    margin-top:20px;height:4px;border-radius:2px;
+    margin-top:auto;height:4px;border-radius:2px;
     background:linear-gradient(90deg, var(--nv), rgba(118,185,0,.25));
   }
   .step:nth-child(4) .step-bar{background:linear-gradient(90deg,#A8E410,rgba(168,228,16,.3))}
@@ -323,7 +323,6 @@
     .partner-grid{grid-template-columns:1fr}
     .side-grid{grid-template-columns:1fr}
     .steps{grid-template-columns:1fr;gap:28px}
-    .step::before{display:none}
     .journey{padding:40px 26px}
     .tl li{grid-template-columns:1fr;gap:6px;padding:18px 0}
     .hero-meta div{margin-right:20px;padding-right:20px}
@@ -891,7 +890,7 @@
         <p class="sec-lede en">Beyond the domestic market, the end goal is NASDAQ — following a disciplined path of building track record, establishing a U.S. base, raising global capital, and going public.</p>
       </div>
       <div class="steps">
-        <div class="step" style="--rise:120px">
+        <div class="step">
           <span class="step-num">STEP 01</span>
           <h3><span class="ko">핵심 역량 입증 및<br>기초 체력 확보</span><span class="en">Prove Core Capability,<br>Build Fundamentals</span></h3>
           <div class="period mono">2026.08 – 2026.12</div>
@@ -907,7 +906,7 @@
           </ul>
           <div class="step-bar"></div>
         </div>
-        <div class="step" style="--rise:80px">
+        <div class="step">
           <span class="step-num">STEP 02</span>
           <h3><span class="ko">미국 거점 확보 및<br>글로벌 평판 구축</span><span class="en">U.S. Base &amp;<br>Global Reputation</span></h3>
           <div class="period mono">2027.01 – 2027.03</div>
@@ -921,7 +920,7 @@
           </ul>
           <div class="step-bar"></div>
         </div>
-        <div class="step" style="--rise:40px">
+        <div class="step">
           <span class="step-num">STEP 03</span>
           <h3><span class="ko">글로벌 VC<br>투자 유치</span><span class="en">Global VC<br>Investment</span></h3>
           <div class="period"><span class="mono ko">2027 중순 – 하반기</span><span class="mono en">Mid – late 2027</span></div>
@@ -935,7 +934,7 @@
           </ul>
           <div class="step-bar"></div>
         </div>
-        <div class="step" style="--rise:0px">
+        <div class="step">
           <span class="step-num">STEP 04</span>
           <h3><span class="ko">NASDAQ<br>IPO 추진</span><span class="en">NASDAQ<br>IPO</span></h3>
           <div class="period"><span class="mono ko">2028 및 그 이후</span><span class="mono en">2028 and beyond</span></div>
