@@ -1,0 +1,1024 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<title>비엔아이엔씨(BNi&C) — AI 인프라 및 글로벌 로드맵 백서</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#F6F8F4;
+    --bg-raise:#FFFFFF;
+    --bg-deep:#0C100D;
+    --ink:#1A211B;
+    --ink-soft:#4C5850;
+    --ink-faint:#84928A;
+    --line:#DDE4DC;
+    --accent:#538A00;
+    --accent-strong:#3F6A00;
+    --accent-soft:#EDF5DC;
+    --nv:#76B900;
+    --hero-ink:#EDF2EA;
+    --hero-sub:#A3B2A6;
+    --hero-line:rgba(163,196,140,.22);
+    --shadow:0 1px 2px rgba(12,16,13,.05),0 8px 24px rgba(12,16,13,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0C100D;
+      --bg-raise:#141A15;
+      --bg-deep:#080B08;
+      --ink:#E7ECE6;
+      --ink-soft:#ACB8AD;
+      --ink-faint:#6E7C70;
+      --line:#243026;
+      --accent:#8FCC1F;
+      --accent-strong:#A8E410;
+      --accent-soft:#1A2A12;
+      --nv:#76B900;
+      --hero-ink:#EDF2EA;
+      --hero-sub:#A3B2A6;
+      --hero-line:rgba(163,196,140,.22);
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#F6F8F4; --bg-raise:#FFFFFF; --bg-deep:#0C100D;
+    --ink:#1A211B; --ink-soft:#4C5850; --ink-faint:#84928A; --line:#DDE4DC;
+    --accent:#538A00; --accent-strong:#3F6A00; --accent-soft:#EDF5DC; --nv:#76B900;
+    --hero-ink:#EDF2EA; --hero-sub:#A3B2A6; --hero-line:rgba(163,196,140,.22);
+    --shadow:0 1px 2px rgba(12,16,13,.05),0 8px 24px rgba(12,16,13,.06);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0C100D; --bg-raise:#141A15; --bg-deep:#080B08;
+    --ink:#E7ECE6; --ink-soft:#ACB8AD; --ink-faint:#6E7C70; --line:#243026;
+    --accent:#8FCC1F; --accent-strong:#A8E410; --accent-soft:#1A2A12; --nv:#76B900;
+    --hero-ink:#EDF2EA; --hero-sub:#A3B2A6; --hero-line:rgba(163,196,140,.22);
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+  }
+
+  /* language switching */
+  :root[data-lang="en"] .ko{display:none !important}
+  :root[data-lang="ko"] .en{display:none !important}
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Pretendard Variable",Pretendard,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",-apple-system,"Segoe UI",sans-serif;
+    line-height:1.7;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+    word-break:keep-all;
+    overflow-wrap:break-word;
+  }
+  .mono{font-family:"JetBrains Mono","Cascadia Code",Consolas,monospace;font-variant-numeric:tabular-nums}
+
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:2px solid var(--nv);outline-offset:2px;border-radius:2px}
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:color-mix(in srgb, var(--bg-deep) 92%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--hero-line);
+  }
+  .nav-inner{
+    max-width:1080px;margin:0 auto;padding:0 24px;
+    display:flex;align-items:center;gap:24px;height:56px;
+    overflow-x:auto;
+  }
+  .nav-brand{
+    color:var(--hero-ink);font-weight:800;letter-spacing:.04em;font-size:.95rem;
+    white-space:nowrap;flex-shrink:0;
+  }
+  .nav-brand b{color:var(--nv);font-weight:800}
+  .nav-brand small{font-weight:500;opacity:.55;font-size:.72rem;letter-spacing:.14em;margin-left:8px}
+  .nav-links{display:flex;gap:20px;margin-left:auto}
+  .nav-links a{
+    color:var(--hero-sub);font-size:.82rem;white-space:nowrap;letter-spacing:.02em;
+  }
+  .nav-links a:hover{color:var(--hero-ink);text-decoration:none}
+  .lang-switch{
+    display:flex;flex-shrink:0;border:1px solid var(--hero-line);border-radius:999px;
+    overflow:hidden;margin-left:4px;
+  }
+  .lang-switch button{
+    appearance:none;border:0;background:transparent;color:var(--hero-sub);
+    font:inherit;font-size:.74rem;font-weight:700;letter-spacing:.08em;
+    padding:5px 13px;cursor:pointer;line-height:1.4;
+  }
+  .lang-switch button[aria-pressed="true"]{
+    background:var(--nv);color:#0C100D;
+  }
+  .lang-switch button:hover:not([aria-pressed="true"]){color:var(--hero-ink)}
+
+  /* ---------- hero ---------- */
+  header{
+    background:
+      radial-gradient(1200px 500px at 78% -10%, rgba(118,185,0,.16), transparent 60%),
+      radial-gradient(900px 420px at 8% 115%, rgba(118,185,0,.07), transparent 55%),
+      var(--bg-deep);
+    color:var(--hero-ink);
+    padding:96px 24px 88px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-inner{max-width:1080px;margin:0 auto;position:relative}
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:.78rem;letter-spacing:.22em;color:var(--nv);
+    text-transform:uppercase;font-weight:700;
+  }
+  .hero-eyebrow::before{content:"";width:34px;height:2px;background:var(--nv)}
+  h1{
+    margin:22px 0 0;font-size:clamp(2rem,5vw,3.2rem);line-height:1.25;
+    font-weight:800;letter-spacing:-.02em;text-wrap:balance;max-width:24ch;
+  }
+  h1 .accent{color:var(--nv)}
+  .hero-sub{
+    margin-top:26px;max-width:60ch;color:var(--hero-sub);font-size:1.02rem;line-height:1.85;
+  }
+  .hero-meta{
+    margin-top:44px;display:flex;flex-wrap:wrap;gap:0;
+    border-top:1px solid var(--hero-line);
+  }
+  .hero-meta div{padding:18px 32px 0 0;margin-right:32px}
+  .hero-meta dt{font-size:.72rem;letter-spacing:.14em;color:var(--hero-sub);text-transform:uppercase;margin:0}
+  .hero-meta dd{margin:6px 0 0;font-size:1rem;color:var(--hero-ink);font-weight:700}
+
+  /* ---------- layout ---------- */
+  main{max-width:1080px;margin:0 auto;padding:0 24px 96px}
+  section{padding-top:88px}
+  .sec-head{margin-bottom:36px;max-width:760px}
+  .sec-eyebrow{
+    font-size:.75rem;letter-spacing:.2em;color:var(--accent);font-weight:800;
+    text-transform:uppercase;
+  }
+  h2{
+    margin:10px 0 0;font-size:clamp(1.5rem,3vw,2rem);line-height:1.35;
+    font-weight:800;letter-spacing:-.015em;text-wrap:balance;
+  }
+  .sec-lede{margin-top:14px;color:var(--ink-soft);font-size:.98rem;max-width:64ch}
+  h3{font-size:1.12rem;margin:0;font-weight:700;letter-spacing:-.005em}
+
+  .card{
+    background:var(--bg-raise);border:1px solid var(--line);border-radius:10px;
+    box-shadow:var(--shadow);
+  }
+
+  /* ---------- vision ---------- */
+  .vision-quote{
+    border-left:4px solid var(--nv);
+    padding:6px 0 6px 26px;margin:0 0 44px;
+    font-size:clamp(1.15rem,2.4vw,1.45rem);line-height:1.7;font-weight:700;
+    color:var(--ink);max-width:40ch;text-wrap:balance;letter-spacing:-.01em;
+  }
+  .vision-quote small{
+    display:block;margin-top:14px;font-size:.78rem;font-weight:800;
+    letter-spacing:.18em;color:var(--accent);text-transform:uppercase;
+  }
+  .mission-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .mission{padding:28px 26px}
+  .mission .tag{
+    display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.14em;
+    color:var(--accent-strong);background:var(--accent-soft);
+    padding:4px 10px;border-radius:999px;margin-bottom:16px;text-transform:uppercase;
+  }
+  .mission p{margin:12px 0 0;color:var(--ink-soft);font-size:.92rem}
+
+  /* ---------- hardware ---------- */
+  .hw-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg-raise);box-shadow:var(--shadow)}
+  table{border-collapse:collapse;width:100%;min-width:820px;font-size:.92rem}
+  thead th{
+    text-align:left;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-faint);font-weight:800;
+    padding:16px 20px;border-bottom:1px solid var(--line);
+    background:color-mix(in srgb, var(--accent-soft) 45%, var(--bg-raise));
+    white-space:nowrap;
+  }
+  tbody td{padding:20px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-soft)}
+  tbody tr:last-child td{border-bottom:none}
+  td .hw-cat{
+    font-size:.72rem;font-weight:800;letter-spacing:.1em;color:var(--accent);
+    text-transform:uppercase;white-space:nowrap;
+  }
+  td .hw-name{font-weight:700;color:var(--ink);margin-top:4px;white-space:nowrap}
+  td ul{margin:0;padding-left:18px}
+  td li{margin:4px 0}
+
+  /* ---------- partners ---------- */
+  .partner-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .partner{padding:26px 26px 24px;display:flex;flex-direction:column;gap:10px}
+  .partner .role{
+    font-size:.72rem;font-weight:800;letter-spacing:.14em;color:var(--accent);
+    text-transform:uppercase;
+  }
+  .partner .alt{font-weight:500;color:var(--ink-faint);font-size:.92em}
+  .partner p{margin:0;color:var(--ink-soft);font-size:.92rem}
+
+  /* ---------- roadmap timeline ---------- */
+  .phase{margin-bottom:56px}
+  .phase-head{
+    display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+    padding-bottom:14px;border-bottom:2px solid var(--ink);margin-bottom:0;
+  }
+  .phase-num{
+    font-size:.78rem;font-weight:800;letter-spacing:.16em;color:var(--accent);
+    text-transform:uppercase;
+  }
+  .phase-head h3{font-size:1.3rem}
+  .phase-period{margin-left:auto;font-size:.85rem;color:var(--ink-faint)}
+  .tl{list-style:none;margin:0;padding:0}
+  .tl li{
+    display:grid;grid-template-columns:190px 1fr;gap:24px;
+    padding:22px 0;border-bottom:1px solid var(--line);
+  }
+  .tl li:last-child{border-bottom:none}
+  .tl-when{font-size:.85rem;color:var(--ink-faint);font-weight:700;padding-top:2px}
+  .tl-when .mono{font-size:.78rem;display:block;margin-top:3px;color:var(--ink-faint);font-weight:400}
+  .tl-what p{margin:0 0 6px;color:var(--ink-soft);font-size:.95rem}
+  .tl-what p:last-child{margin-bottom:0}
+  .milestone{
+    display:inline-flex;align-items:center;gap:7px;
+    background:var(--nv);color:#0C100D;
+    font-size:.74rem;font-weight:800;letter-spacing:.08em;
+    padding:3px 12px;border-radius:999px;margin-bottom:10px;text-transform:uppercase;
+  }
+  .milestone::before{content:"";width:6px;height:6px;border-radius:50%;background:#0C100D}
+  .tl-what .key{color:var(--ink);font-weight:700}
+
+  /* ---------- side roadmaps ---------- */
+  .side-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .side{padding:30px 28px}
+  .side .side-label{
+    font-size:.72rem;font-weight:800;letter-spacing:.16em;color:var(--accent);
+    text-transform:uppercase;
+  }
+  .side h3{margin-top:8px}
+  .flow{list-style:none;margin:24px 0 0;padding:0}
+  .flow li{position:relative;padding:0 0 26px 26px}
+  .flow li::before{
+    content:"";position:absolute;left:5px;top:9px;width:8px;height:8px;border-radius:50%;
+    background:var(--nv);
+  }
+  .flow li::after{
+    content:"";position:absolute;left:8px;top:22px;bottom:-4px;width:2px;
+    background:var(--line);
+  }
+  .flow li:last-child{padding-bottom:0}
+  .flow li:last-child::after{display:none}
+  .flow .when{font-size:.76rem;font-weight:800;color:var(--accent);letter-spacing:.04em}
+  .flow p{margin:3px 0 0;font-size:.92rem;color:var(--ink-soft)}
+  .side .strategy{
+    margin-top:26px;padding:16px 18px;border-radius:8px;
+    background:var(--accent-soft);font-size:.88rem;color:var(--ink-soft);
+  }
+  .side .strategy b{color:var(--accent-strong)}
+
+  /* ---------- nasdaq journey ---------- */
+  .journey{
+    background:
+      radial-gradient(900px 400px at 85% 0%, rgba(118,185,0,.14), transparent 60%),
+      var(--bg-deep);
+    border-radius:14px;padding:56px 48px;color:var(--hero-ink);
+    margin-top:8px;
+  }
+  .journey .sec-eyebrow{color:var(--nv)}
+  .journey h2{color:var(--hero-ink)}
+  .journey .sec-lede{color:var(--hero-sub)}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:44px}
+  .step{
+    border-left:1px solid var(--hero-line);
+    padding:22px 20px 0;position:relative;
+    display:flex;flex-direction:column;
+  }
+  .step-num{
+    font-family:"JetBrains Mono",Consolas,monospace;
+    font-size:.75rem;color:var(--nv);letter-spacing:.14em;
+  }
+  .step h3{color:var(--hero-ink);font-size:1rem;margin-top:8px;line-height:1.5}
+  .step .period{font-size:.76rem;color:var(--hero-sub);margin-top:4px}
+  .step ul{margin:14px 0 22px;padding-left:16px;color:var(--hero-sub);font-size:.84rem;line-height:1.7}
+  .step li{margin:6px 0}
+  .step li b{color:var(--hero-ink);font-weight:700}
+  .step-bar{
+    margin-top:auto;height:4px;border-radius:2px;
+    background:linear-gradient(90deg, var(--nv), rgba(118,185,0,.25));
+  }
+  .step:nth-child(4) .step-bar{background:linear-gradient(90deg,#A8E410,rgba(168,228,16,.3))}
+  .step:nth-child(4) .step-num{color:#A8E410}
+
+  footer{
+    border-top:1px solid var(--line);margin-top:96px;padding:32px 24px 48px;
+    text-align:center;color:var(--ink-faint);font-size:.82rem;
+  }
+  footer b{color:var(--ink-soft);letter-spacing:.04em}
+
+  @media (max-width:900px){
+    .mission-grid{grid-template-columns:1fr}
+    .partner-grid{grid-template-columns:1fr}
+    .side-grid{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr;gap:28px}
+    .journey{padding:40px 26px}
+    .tl li{grid-template-columns:1fr;gap:6px;padding:18px 0}
+    .hero-meta div{margin-right:20px;padding-right:20px}
+  }
+</style>
+
+<script>
+  (function(){
+    var lang='ko';
+    try{ var s=localStorage.getItem('bnic-lang'); if(s==='en'||s==='ko') lang=s; }catch(e){}
+    document.documentElement.setAttribute('data-lang',lang);
+    document.documentElement.lang = lang;
+  })();
+</script>
+
+<nav aria-label="Navigation">
+  <div class="nav-inner">
+    <span class="nav-brand">BNi<b>&amp;</b>C<small>WHITEPAPER</small></span>
+    <div class="nav-links">
+      <a href="#vision"><span class="ko">비전·미션</span><span class="en">Vision</span></a>
+      <a href="#hardware"><span class="ko">하드웨어</span><span class="en">Hardware</span></a>
+      <a href="#partners"><span class="ko">파트너십</span><span class="en">Partners</span></a>
+      <a href="#roadmap"><span class="ko">마스터 로드맵</span><span class="en">Roadmap</span></a>
+      <a href="#side"><span class="ko">사이드 로드맵</span><span class="en">Side Tracks</span></a>
+      <a href="#nasdaq"><span class="ko">NASDAQ 여정</span><span class="en">Road to NASDAQ</span></a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" id="btn-ko" aria-pressed="true" onclick="setLang('ko')">한국어</button>
+      <button type="button" id="btn-en" aria-pressed="false" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="hero-inner">
+    <span class="hero-eyebrow">BNi&amp;C · Project Whitepaper · 2026 – 2028</span>
+    <h1>
+      <span class="ko">차세대 AI 인프라에서<br><span class="accent">NASDAQ</span>까지,<br>Tech Value Chain의 설계도</span>
+      <span class="en">From Next-Gen AI Infrastructure<br>to <span class="accent">NASDAQ</span> —<br>a Tech Value Chain Blueprint</span>
+    </h1>
+    <p class="hero-sub ko">
+      비엔아이엔씨(BNi&amp;C)는 NVIDIA DGX·Jetson 기반 AI 인프라와 Physical AI 생태계를 연결하고,
+      자체 데이터센터 PoC로 상용 가치를 입증하여 글로벌 자본 시장(NASDAQ)에 도전하는
+      Tech Value Chain 리더를 지향합니다.
+    </p>
+    <p class="hero-sub en">
+      BNi&amp;C connects NVIDIA DGX and Jetson-based AI infrastructure with the Physical AI ecosystem,
+      proving commercial value through in-house data center PoCs — on the road to the global
+      capital markets and a NASDAQ listing.
+    </p>
+    <dl class="hero-meta">
+      <div><dt>PoC Kick-off</dt><dd class="mono">2026.08</dd></div>
+      <div><dt><span class="ko">미국 법인 설립</span><span class="en">U.S. Entity</span></dt><dd class="mono">2027.01</dd></div>
+      <div><dt>NVIDIA GTC Session</dt><dd class="mono">2027.03</dd></div>
+      <div><dt>NASDAQ IPO</dt><dd class="mono">2028 —</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main>
+
+  <!-- ═══════════ 1. Vision & Mission ═══════════ -->
+  <section id="vision">
+    <div class="sec-head">
+      <span class="sec-eyebrow">01 · Vision &amp; Mission</span>
+      <h2><span class="ko">비전 및 미션</span><span class="en">Vision &amp; Mission</span></h2>
+    </div>
+    <blockquote class="vision-quote">
+      <span class="ko">“차세대 AI 인프라와 Physical AI 생태계를 연결하고, 글로벌 자본 시장(NASDAQ)에서 입증받는 Tech Value Chain 리더”</span>
+      <span class="en">“A tech value chain leader that connects next-generation AI infrastructure with the Physical AI ecosystem — proven in the global capital markets (NASDAQ).”</span>
+      <small>Vision</small>
+    </blockquote>
+    <div class="mission-grid">
+      <div class="card mission">
+        <span class="tag">Mission 1</span>
+        <h3><span class="ko">AI 하드웨어 &amp; 플랫폼 최적화</span><span class="en">AI Hardware &amp; Platform Optimization</span></h3>
+        <p class="ko">최첨단 GPU 인프라(NVIDIA DGX, Jetson)를 효율적으로 공급·운용하여 차세대 AI 생태계의 기반을 다집니다.</p>
+        <p class="en">Efficiently supply and operate cutting-edge GPU infrastructure (NVIDIA DGX, Jetson) to lay the foundation of the next-generation AI ecosystem.</p>
+      </div>
+      <div class="card mission">
+        <span class="tag">Mission 2</span>
+        <h3><span class="ko">자체 인프라 기반 맞춤형 AI 솔루션 검증 (PoC)</span><span class="en">In-House Infrastructure PoC Validation</span></h3>
+        <p class="ko">자체 데이터센터를 활용해 Kweather·Aerobotics와 기상/환경 AI 및 로보틱스 On-Device AI PoC를 성공시켜, 상용 가치와 압도적인 Track Record를 입증합니다.</p>
+        <p class="en">Run weather/environmental AI and robotics on-device AI PoCs with Kweather and Aerobotics on our own data center, proving commercial value and a decisive track record.</p>
+      </div>
+      <div class="card mission">
+        <span class="tag">Mission 3</span>
+        <h3><span class="ko">글로벌 Scale-up 및 NASDAQ 상장</span><span class="en">Global Scale-up &amp; NASDAQ Listing</span></h3>
+        <p class="ko">탄탄한 평판을 바탕으로 미국 법인을 설립하고, Figure Technologies 등 글로벌 파트너 연계와 Top-tier VC 투자 유치를 통해 NASDAQ 상장을 달성합니다.</p>
+        <p class="en">Establish a U.S. entity on a proven reputation, deepen ties with Figure Technologies and other global partners, and secure top-tier VC investment on the way to a NASDAQ listing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 2. Hardware ═══════════ -->
+  <section id="hardware">
+    <div class="sec-head">
+      <span class="sec-eyebrow">02 · Hardware Lineup</span>
+      <h2><span class="ko">하드웨어 스펙 및 보유·도입 계획</span><span class="en">Hardware Specs &amp; Deployment Plan</span></h2>
+      <p class="sec-lede ko">BNi&amp;C는 NVIDIA 파트너로서 AI 인프라의 설계부터 구축, 안정적인 운영까지 제공하는 AI Full-Stack 역량을 보유하고 있습니다. DGX 시스템부터 데이터센터 GPU, 스토리지, 네트워크, Edge 모듈까지 전체 라인업으로 솔루션 검증과 유통을 동시에 전개합니다.</p>
+      <p class="sec-lede en">As an NVIDIA partner, BNi&amp;C delivers full-stack AI infrastructure — from design and deployment to managed operations. The lineup spans DGX systems, data center GPUs, storage, networking, and edge modules, enabling solution validation and distribution in parallel.</p>
+    </div>
+    <div class="hw-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:220px"><span class="ko">구분 / 하드웨어</span><span class="en">Category / Hardware</span></th>
+            <th><span class="ko">주요 스펙 및 명세</span><span class="en">Key Specifications</span></th>
+            <th><span class="ko">핵심 용도 및 배치</span><span class="en">Deployment &amp; Use</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <span class="hw-cat">DGX AI Compute</span>
+              <div class="hw-name">NVIDIA DGX Systems<br><span style="font-weight:500;font-size:.85em;color:var(--ink-faint)">B200 · B300 · Rubin NVL8<br>GB200/GB300 NVL72 · SuperPOD</span></div>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>DGX B200 — 훈련·미세조정·추론 통합 AI 플랫폼</li>
+                <li>DGX B300 — AI Factory의 기반이 되는 추론 시스템</li>
+                <li>DGX Rubin NVL8 — Agentic AI 대응 차세대 시스템</li>
+                <li>GB200/GB300 NVL72 — 랙스케일 대규모 학습</li>
+                <li>DGX SuperPOD — 국내 최대 규모 구축 Track Record</li>
+              </ul>
+              <ul class="en">
+                <li>DGX B200 — unified platform for training, fine-tuning, and inference</li>
+                <li>DGX B300 — the inference foundation of the AI Factory</li>
+                <li>DGX Rubin NVL8 — next-gen system for agentic AI</li>
+                <li>GB200/GB300 NVL72 — rack-scale large-model training</li>
+                <li>DGX SuperPOD — Korea's largest deployment track record</li>
+              </ul>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>Weather AI Factory 메인 학습 인프라</li>
+                <li>엔터프라이즈(B2B) 공급망 판매</li>
+              </ul>
+              <ul class="en">
+                <li>Main training infrastructure for the Weather AI Factory</li>
+                <li>Enterprise B2B supply-chain distribution</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="hw-cat">AI Workstation · PoC</span>
+              <div class="hw-name">NVIDIA DGX Spark<br><span style="font-weight:500;font-size:.85em;color:var(--ink-faint)">DGX Station (GB300)</span></div>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>Grace Blackwell 기반 데스크사이드 AI 슈퍼컴퓨팅</li>
+                <li>LLM 및 기상 AI Foundation Model 파인튜닝·프로토타이핑 최적화</li>
+              </ul>
+              <ul class="en">
+                <li>Grace Blackwell-based deskside AI supercomputing</li>
+                <li>Optimized for fine-tuning and prototyping LLMs and weather AI foundation models</li>
+              </ul>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>자체 데이터센터 PoC 메인 인프라</li>
+                <li>Weather AI Factory 구축 테스트베드</li>
+              </ul>
+              <ul class="en">
+                <li>Main infrastructure for the in-house data center PoC</li>
+                <li>Testbed for the Weather AI Factory</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="hw-cat">Data Center GPU</span>
+              <div class="hw-name">NVIDIA H200 / H100 NVL<br><span style="font-weight:500;font-size:.85em;color:var(--ink-faint)">L40S · RTX PRO 6000 Blackwell</span></div>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>H200 NVL / H100 NVL — 고성능 학습·추론 가속, 엔터프라이즈 표준</li>
+                <li>L40S — 추론 최적화 범용 가속</li>
+                <li>RTX PRO 6000 Blackwell — 크리에이티브 AI·3D·실시간 영상</li>
+              </ul>
+              <ul class="en">
+                <li>H200 NVL / H100 NVL — high-performance training and inference, the enterprise standard</li>
+                <li>L40S — inference-optimized universal acceleration</li>
+                <li>RTX PRO 6000 Blackwell — creative AI, 3D, real-time video</li>
+              </ul>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>HGX·PCIe 기반 고객 맞춤형 GPU 서버 구성</li>
+                <li>국내 B2B 유통 라인업</li>
+              </ul>
+              <ul class="en">
+                <li>Custom GPU server builds on HGX and PCIe platforms</li>
+                <li>Domestic B2B distribution lineup</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="hw-cat">Edge · Embedded</span>
+              <div class="hw-name">NVIDIA Jetson<br>AGX Orin / Thor</div>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>최고 275 TOPS ~ 2,000 TOPS급 On-Device AI 연산 능력</li>
+                <li>저전력·고성능 Edge AI 추론 엔진 지원</li>
+              </ul>
+              <ul class="en">
+                <li>Up to 275 – 2,000 TOPS of on-device AI compute</li>
+                <li>Low-power, high-performance edge AI inference engines</li>
+              </ul>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>Aerobotics AI 재난감지로봇 ‘Aerobot’ 탑재</li>
+                <li>레일 기반 자율주행 및 화재·누수 등 위험 요소 실시간 감지 추론</li>
+                <li>시설 환경·공기질 데이터 측정 추론</li>
+              </ul>
+              <ul class="en">
+                <li>Onboard compute for the Aerobotics AI disaster-detection robot "Aerobot"</li>
+                <li>Rail-based autonomous patrol with real-time inference for fire, water-leak, and hazard detection</li>
+                <li>Facility environment and air-quality sensing inference</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="hw-cat">Storage</span>
+              <div class="hw-name">IBM · Pure Storage<br><span style="font-weight:500;font-size:.85em;color:var(--ink-faint)">Enterprise Storage</span></div>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>엔터프라이즈급 고성능 NVMe 스토리지</li>
+                <li>대규모 기상 데이터 유입 및 처리</li>
+              </ul>
+              <ul class="en">
+                <li>Enterprise-grade high-performance NVMe storage</li>
+                <li>Large-scale weather data ingestion and processing</li>
+              </ul>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>자체 데이터센터 데이터 수집 및 PoC 연산 환경 지원</li>
+              </ul>
+              <ul class="en">
+                <li>Supports data collection and PoC compute inside the in-house data center</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="hw-cat">Network</span>
+              <div class="hw-name">NVIDIA Networking<br><span style="font-weight:500;font-size:.85em;color:var(--ink-faint)">InfiniBand · Ethernet</span></div>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>400G InfiniBand — 초저지연 GPU 클러스터 통신</li>
+                <li>고속 Ethernet 네트워크 구성</li>
+              </ul>
+              <ul class="en">
+                <li>400G InfiniBand — ultra-low-latency GPU cluster interconnect</li>
+                <li>High-speed Ethernet network builds</li>
+              </ul>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>PoC 클러스터 및 Weather AI Factory 네트워크 백본</li>
+              </ul>
+              <ul class="en">
+                <li>Network backbone for the PoC cluster and Weather AI Factory</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span class="hw-cat">Software · Platform</span>
+              <div class="hw-name">NVIDIA AI Enterprise<br><span style="font-weight:500;font-size:.85em;color:var(--ink-faint)">NVAIE · vGPU</span></div>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>NVIDIA AI Enterprise — 엔터프라이즈 AI 소프트웨어 프레임워크</li>
+                <li>NVIDIA vGPU — GPU 가상화 플랫폼</li>
+              </ul>
+              <ul class="en">
+                <li>NVIDIA AI Enterprise — enterprise AI software framework</li>
+                <li>NVIDIA vGPU — GPU virtualization platform</li>
+              </ul>
+            </td>
+            <td>
+              <ul class="ko">
+                <li>설계–구축–운영을 아우르는 Full-Stack·Managed System 제공</li>
+              </ul>
+              <ul class="en">
+                <li>Full-stack delivery and managed system operations, from design to run</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:14px;font-size:.8rem;color:var(--ink-faint)">
+      <span class="ko">제품 라인업 출처: BNi&amp;C 공식 웹사이트 — <a href="https://www.bninc.co.kr/" target="_blank" rel="noopener">bninc.co.kr</a></span>
+      <span class="en">Product lineup source: BNi&amp;C official website — <a href="https://www.bninc.co.kr/" target="_blank" rel="noopener">bninc.co.kr</a></span>
+    </p>
+  </section>
+
+  <!-- ═══════════ 3. Partners ═══════════ -->
+  <section id="partners">
+    <div class="sec-head">
+      <span class="sec-eyebrow">03 · Strategic Partnership</span>
+      <h2><span class="ko">핵심 파트너십 체계</span><span class="en">Core Partnership Structure</span></h2>
+    </div>
+    <div class="partner-grid">
+      <div class="card partner">
+        <span class="role">Blockchain Finance · US Bridgehead</span>
+        <h3>Figure Technologies</h3>
+        <p class="ko">블록체인과 AI를 결합한 미국의 대출 금융 플랫폼 — “Finance, without the friction”. HELOC(주택담보신용대출)을 중심으로 승인 5분·자금화 최대 5일의 프로세스를 구현했으며, 플랫폼 누적 자산 $25B+, 253,000+ 가구에 서비스를 제공하는 NASDAQ 상장 기업입니다. BNi&amp;C의 미국 진출과 자본 시장 네트워킹을 위한 전략적 교두보로, NDA 체결을 기점으로 파트너십을 본격화합니다.</p>
+        <p class="en">A U.S. lending platform combining blockchain and AI — "Finance, without the friction." Centered on HELOCs with 5-minute approvals and funding in as few as 5 days, Figure has activated $25B+ in assets for 253,000+ households and is listed on NASDAQ. It serves as BNi&amp;C's strategic bridgehead into the U.S. market and capital-markets network, with the partnership formally beginning at the signing of an NDA.</p>
+      </div>
+      <div class="card partner">
+        <span class="role">Weather AI · PoC Core</span>
+        <h3>Kweather <span class="alt ko">케이웨더</span></h3>
+        <p class="ko">1997년 설립된 대한민국 최초의 민간 기상사업자로, 28년 업력의 날씨 빅데이터 플랫폼 기업입니다. 전국 30,000개 이상의 공기측정망을 운영하며 4,000개 이상의 기업 고객에게 기상·공기질 데이터 서비스를 제공하고, 2024년 KOSDAQ에 상장했습니다. Weather AI Factory Blueprint 공동 기획 및 BNi&amp;C 자체 인프라를 활용한 Weather AI 모델 검증(PoC)의 핵심 파트너입니다.</p>
+        <p class="en">Founded in 1997 as Korea's first private-sector weather company, Kweather is a weather big-data platform with 28 years of track record — operating 30,000+ air-quality monitoring sites nationwide, serving 4,000+ corporate customers, and listed on KOSDAQ in 2024. Core partner for co-designing the Weather AI Factory blueprint and validating weather AI models (PoC) on BNi&amp;C's own infrastructure.</p>
+      </div>
+      <div class="card partner">
+        <span class="role">Physical AI · On-Device</span>
+        <h3>Aerobotics <span class="alt"><span class="ko">Kweather 자회사</span><span class="en">a Kweather subsidiary</span></span></h3>
+        <p class="ko">Kweather 자회사로 AI 재난감지로봇 ‘Aerobot’을 개발·운영합니다. Aerobot은 시설 천장 레일을 자율주행하며 화재·누수 등 위험 요소를 조기 감지하는 로봇으로, 서울시 지하공동구 재난 안전관리에 실전 투입된 실적을 보유합니다. BNi&amp;C는 Aerobot의 ‘두뇌’ 역할을 담당할 NVIDIA Jetson 플랫폼을 공급하고 On-Device AI 시스템 통합 테스트를 수행합니다.</p>
+        <p class="en">A Kweather subsidiary developing and operating the AI disaster-detection robot "Aerobot" — an autonomous rail-mounted robot that patrols facility ceilings to detect fire, water leaks, and other hazards early, with a live deployment in Seoul's underground utility tunnels for disaster-safety management. BNi&amp;C supplies the NVIDIA Jetson platform — the robot's 'brain' — and runs integrated on-device AI system testing.</p>
+      </div>
+      <div class="card partner">
+        <span class="role">Financial Structuring</span>
+        <h3><span class="ko">하나금융그룹</span><span class="en">Hana Financial Group</span></h3>
+        <p class="ko">하나은행·하나증권·하나카드 등 14개 자회사를 보유하고 전 세계 27개 지역 199개 글로벌 네트워크를 운영하는 대한민국 대표 금융그룹입니다. 초기 AI 인프라·로보틱스 자산 기반 기술 금융 협력과 함께, BNi&amp;C의 글로벌 진출 및 미국 법인 설립을 위한 Bridge Financing과 자본 구조화를 지원합니다.</p>
+        <p class="en">One of Korea's leading financial groups — 14 subsidiaries including Hana Bank, Hana Securities, and Hana Card, with a global network of 199 offices across 27 regions. Provides technology financing backed by early AI infrastructure and robotics assets, and supports bridge financing and capital structuring for BNi&amp;C's U.S. entity establishment and global expansion.</p>
+      </div>
+      <div class="card partner">
+        <span class="role">News Media · Video Dataset</span>
+        <h3>YTN</h3>
+        <p class="ko">1995년 개국한 대한민국 최초의 24시간 보도전문채널로, 30년간 축적된 방대한 뉴스 영상 아카이브를 보유하고 있습니다. BNi&amp;C와 뉴스영상 학습·정제 공동사업 협약을 체결하고, AI 파운데이션 모델 학습용 대한민국 영상 데이터셋을 가공하는 AI 데이터셋 팩토리 사업의 원천 데이터 파트너 역할을 수행합니다.</p>
+        <p class="en">Korea's first 24-hour all-news channel, on air since 1995, holding three decades of accumulated news-video archives. Under a joint-business agreement with BNi&amp;C on news-video training and refinement, YTN serves as the source-data partner of the Korea AI Dataset Factory, curating Korean video datasets for AI foundation-model training.</p>
+      </div>
+      <div class="card partner">
+        <span class="role">Conglomerate · Data Center JV</span>
+        <h3><span class="ko">유진그룹</span><span class="en">Eugene Group</span></h3>
+        <p class="ko">1984년 창립한 유진기업을 모체로 하는 재계 30위권 그룹입니다. 레미콘 업계 1위 유진기업을 비롯해 유진투자증권, 로젠택배 등 50여 개 계열사에서 연 4조 원 규모의 매출을 창출하며, 2024년 YTN 최대주주에 올라 미디어로 영역을 확장했습니다. BNi&amp;C와 데이터센터 구축 공동사업 협약을 체결하고, 경북 구미 3GW급 데이터센터 구축을 함께 추진합니다.</p>
+        <p class="en">A top-30 Korean conglomerate built on Eugene Corporation (founded 1984), Korea's No. 1 ready-mixed concrete company — spanning some 50 affiliates including Eugene Investment &amp; Securities and Logen Logistics with about ₩4 trillion in annual revenue, and YTN's largest shareholder since 2024. Under a joint-business agreement with BNi&amp;C on data center construction, Eugene Group co-drives the 3GW-class data center project in Gumi, North Gyeongsang.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 4. Master Roadmap ═══════════ -->
+  <section id="roadmap">
+    <div class="sec-head">
+      <span class="sec-eyebrow">04 · Master Roadmap</span>
+      <h2><span class="ko">마스터 주단위 로드맵</span><span class="en">Master Weekly Roadmap</span></h2>
+      <p class="sec-lede ko">2026년 8월부터 2027년 3월, 그리고 그 이후까지 — 자체 PoC에서 글로벌 무대까지 4개 Phase로 전개합니다.</p>
+      <p class="sec-lede en">August 2026 through March 2027 and beyond — four phases from in-house PoC to the global stage.</p>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="phase-num">Phase 1</span>
+        <h3><span class="ko">개시 및 자체 데이터센터 PoC</span><span class="en">Launch &amp; In-House Data Center PoC</span></h3>
+        <span class="phase-period mono">2026.08 – 2026.10</span>
+      </div>
+      <ul class="tl">
+        <li>
+          <div class="tl-when"><span class="ko">8월 2주차</span><span class="en">Aug, Week 2</span><span class="mono">08.12 – 08.16</span></div>
+          <div class="tl-what">
+            <span class="milestone">Key Milestone</span>
+            <p class="key ko">Figure Technologies NDA 체결 완료</p>
+            <p class="key en">Figure Technologies NDA signed</p>
+            <p class="ko">Kweather Weather AI Factory 구축 구상을 위한 자체 데이터센터 PoC Kick-off</p>
+            <p class="en">In-house data center PoC kick-off for the Kweather Weather AI Factory concept</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-when"><span class="ko">8월 3주차</span><span class="en">Aug, Week 3</span><span class="mono">08.17 – 08.23</span></div>
+          <div class="tl-what">
+            <p class="ko">BNi&amp;C 데이터센터 내 DGX Spark PoC 환경 레이아웃 설계 및 세팅 착수</p>
+            <p class="en">DGX Spark PoC environment layout design and setup begins in the BNi&amp;C data center</p>
+            <p class="ko">하나금융그룹 실무진 미팅 — 초기 자본 유동성 및 글로벌 진출 펀딩 논의</p>
+            <p class="en">Working-level meeting with Hana Financial Group — early capital liquidity and global expansion funding</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-when"><span class="ko">8월 4주차</span><span class="en">Aug, Week 4</span><span class="mono">08.24 – 08.30</span></div>
+          <div class="tl-what">
+            <p class="ko">Aerobotics 측에 AI Aerobot용 NVIDIA Jetson 샘플 및 DevKit 전달</p>
+            <p class="en">NVIDIA Jetson samples and DevKits for the AI Aerobot delivered to Aerobotics</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-when"><span class="ko">9월</span><span class="en">September</span><span class="mono ko">협약·공동사업</span><span class="mono en">Agreements &amp; JV</span></div>
+          <div class="tl-what">
+            <span class="milestone">Key Milestone</span>
+            <p class="key ko">YTN 뉴스영상 학습·정제 공동사업 협약 및 유진그룹 데이터센터 구축 공동사업 협약 체결</p>
+            <p class="key en">Joint-business agreements signed — YTN news-video training &amp; refinement, and Eugene Group data center construction</p>
+            <p class="ko">YTN·유진그룹 미팅 — YTN·유진그룹·국립중앙도서관과 함께 AI 파운데이션 모델 학습용 대한민국 데이터셋을 가공하는 AI 팩토리 사업 추진</p>
+            <p class="en">YTN and Eugene Group meetings — launching an AI Factory initiative with YTN, Eugene Group, and the National Library of Korea to curate Korean datasets for AI foundation-model training</p>
+            <p class="ko">9월 초 — 영상 학습용 시장 진출을 위한 영상 전용 서버 판매 시장 영업 활동 즉시 개시</p>
+            <p class="en">Early September — sales activities begin immediately for video-dedicated servers, entering the video-training market</p>
+            <p class="ko">9월 중 — 경북 구미 지역 3GW급 데이터센터 구축을 목표로 경상북도·구미시장 MOU 체결</p>
+            <p class="en">Mid-September — MOU signed with North Gyeongsang Province and the Mayor of Gumi, targeting a 3GW-class data center in Gumi</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-when"><span class="ko">9월 1주차 – 10월 4주차</span><span class="en">Sep W1 – Oct W4</span><span class="mono ko">PoC 수행·Edge 최적화</span><span class="mono en">PoC &amp; edge optimization</span></div>
+          <div class="tl-what">
+            <p class="ko">자체 데이터센터 DGX Spark 초기 세팅 완료 및 실시간 날씨 예측 AI 모델 연산 효율성 검증</p>
+            <p class="en">DGX Spark initial setup completed; compute efficiency of real-time weather prediction AI models validated</p>
+            <p class="ko">AI Aerobot Jetson 기반 On-Device 추론 실시간 연동 테스트</p>
+            <p class="en">Real-time integration testing of Jetson-based on-device inference for the AI Aerobot</p>
+            <p class="ko">미국 지사 설립 사전 타당성 조사 및 글로벌 VC 리스트업 착수</p>
+            <p class="en">Feasibility study for a U.S. entity and initial global VC long-listing</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="phase-num">Phase 2</span>
+        <h3><span class="ko">PoC 완료 및 올연말 1차 성과 공유</span><span class="en">PoC Completion &amp; Year-End Results Sharing</span></h3>
+        <span class="phase-period mono">2026.11 – 2026.12</span>
+      </div>
+      <ul class="tl">
+        <li>
+          <div class="tl-when"><span class="ko">11월 1주차 – 4주차</span><span class="en">Nov, Weeks 1 – 4</span><span class="mono ko">PoC 검증 완료</span><span class="mono en">PoC validation complete</span></div>
+          <div class="tl-what">
+            <span class="milestone">Key Milestone</span>
+            <p class="key ko">3개월 PoC 검증 완료 및 글로벌 IR용 영문 성과 평가 리포트 발간</p>
+            <p class="key en">Three-month PoC validated; English-language performance report published for global IR</p>
+            <p class="ko">기존 인프라 대비 DGX Spark의 AI 기상 모델 학습 속도 및 Aerobot 시뮬레이션 성공 지표 확정</p>
+            <p class="en">DGX Spark weather-model training speedup vs. legacy infrastructure and Aerobot simulation success metrics finalized</p>
+            <span class="milestone">Key Milestone</span>
+            <p class="key ko">Kweather 공동 사업 — 60일 예보 생산 성공 및 60일 강우량 시뮬레이션 성공 발표</p>
+            <p class="key en">Kweather joint program — 60-day forecast production and 60-day rainfall simulation successes announced</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-when"><span class="ko">12월 1주차 – 4주차</span><span class="en">Dec, Weeks 1 – 4</span><span class="mono ko">프라이빗 성과 공유</span><span class="mono en">Private results sharing</span></div>
+          <div class="tl-what">
+            <span class="milestone">Key Milestone</span>
+            <p class="key ko">2026 BNi&amp;C 1차 Partners Day — PoC 성과 및 글로벌 청사진 공유</p>
+            <p class="key en">2026 BNi&amp;C 1st Partners Day — PoC results and global blueprint shared</p>
+            <p class="ko">파트너사 대상 ‘Weather AI Factory’ 기술적 타당성 브리핑 및 내년도 미국 지사 설립 계획 내부 확정</p>
+            <p class="en">Weather AI Factory technical feasibility briefing for partners; next year's U.S. entity plan finalized internally</p>
+            <p class="ko">업력 확보를 위한 국내 DGX Spark 및 Jetson B2B 초기 유통 계약 추진</p>
+            <p class="en">Initial domestic B2B distribution contracts for DGX Spark and Jetson to build track record</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="phase-num">Phase 3</span>
+        <h3><span class="ko">미국 지사 설립 및 GTC 2027 준비</span><span class="en">U.S. Entity &amp; GTC 2027 Preparation</span></h3>
+        <span class="phase-period mono">2027.01 – 2027.02</span>
+      </div>
+      <ul class="tl">
+        <li>
+          <div class="tl-when"><span class="ko">1월 1주차 – 4주차</span><span class="en">Jan, Weeks 1 – 4</span><span class="mono ko">미국 법인·국내 선언</span><span class="mono en">U.S. entity · KR announcement</span></div>
+          <div class="tl-what">
+            <span class="milestone">Key Milestone</span>
+            <p class="key ko">BNi&amp;C 미국 지사(법인) 공식 설립 완료 — Silicon Valley 등 거점 확보</p>
+            <p class="key en">BNi&amp;C U.S. entity officially established — footprint secured in Silicon Valley and beyond</p>
+            <span class="milestone">Key Milestone</span>
+            <p class="key ko">2027 국내 공식 Press Conference — Kweather와의 ‘Weather AI Factory 구축 프로젝트’ 공식 선언</p>
+            <p class="key en">2027 official press conference in Korea — Weather AI Factory project with Kweather publicly announced</p>
+            <p class="ko">미국 법인을 창구로 Figure Technologies 파트너십 심화 및 현지 VC Meetup 본격화</p>
+            <p class="en">Deepening the Figure Technologies partnership and launching local VC meetups through the U.S. entity</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-when"><span class="ko">2월 1주차 – 4주차</span><span class="en">Feb, Weeks 1 – 4</span><span class="mono ko">GTC 준비·IR Kick-off</span><span class="mono en">GTC prep · IR kick-off</span></div>
+          <div class="tl-what">
+            <p class="ko">NVIDIA GTC 2027 세션 발표 프레젠테이션 최종 확정</p>
+            <p class="en">NVIDIA GTC 2027 session presentation finalized</p>
+            <p class="ko">미국 현지 Top-tier VC 대상 1차 Deal Sourcing Deck 배포</p>
+            <p class="en">First deal-sourcing deck distributed to top-tier U.S. VCs</p>
+            <p class="ko">Aerobotics AI Aerobot 상용 모듈(Jetson) 정기 공급망 가동</p>
+            <p class="en">Regular Jetson module supply chain goes live for the Aerobotics AI Aerobot</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase">
+      <div class="phase-head">
+        <span class="phase-num">Phase 4</span>
+        <h3><span class="ko">글로벌 무대 도약 및 GTC 2027</span><span class="en">Global Stage &amp; GTC 2027</span></h3>
+        <span class="phase-period mono">2027.03</span>
+      </div>
+      <ul class="tl">
+        <li>
+          <div class="tl-when"><span class="ko">3월 1주차 – 2주차</span><span class="en">Mar, Weeks 1 – 2</span><span class="mono ko">리허설·네트워킹</span><span class="mono en">Rehearsal · networking</span></div>
+          <div class="tl-what">
+            <p class="ko">NVIDIA GTC 현장 부스 및 세션 리허설</p>
+            <p class="en">On-site GTC booth and session rehearsals</p>
+            <p class="ko">San Francisco 현지 VC 대상 프라이빗 IR 세션 개최</p>
+            <p class="en">Private IR sessions with VCs in San Francisco</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-when"><span class="ko">3월 3주차</span><span class="en">Mar, Week 3</span><span class="mono ko">GTC 행사 발표</span><span class="mono en">GTC session</span></div>
+          <div class="tl-what">
+            <span class="milestone">Key Milestone</span>
+            <p class="key ko">NVIDIA GTC 2027 공식 세션 발표</p>
+            <p class="key en">Official session at NVIDIA GTC 2027</p>
+            <p class="ko">주제: “NVIDIA DGX &amp; Jetson 기반의 차세대 Weather AI 생태계 구축 검증 및 비전”</p>
+            <p class="en">Topic: "Validating and Envisioning a Next-Gen Weather AI Ecosystem on NVIDIA DGX &amp; Jetson"</p>
+          </div>
+        </li>
+        <li>
+          <div class="tl-when"><span class="ko">3월 4주차</span><span class="en">Mar, Week 4</span><span class="mono">Post-GTC</span></div>
+          <div class="tl-what">
+            <p class="ko">GTC 발표 성과와 글로벌 인지도를 바탕으로 미국 지사 주도의 대규모 펀딩(Series A / Pre-IPO 라운드) 클로징 협상</p>
+            <p class="en">Leveraging GTC momentum and global visibility, the U.S. entity leads closing negotiations for a major funding round (Series A / Pre-IPO)</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════ 5. Side Roadmaps ═══════════ -->
+  <section id="side">
+    <div class="sec-head">
+      <span class="sec-eyebrow">05 · Side Roadmaps</span>
+      <h2><span class="ko">사이드 로드맵</span><span class="en">Side Roadmaps</span></h2>
+      <p class="sec-lede ko">마스터 로드맵을 뒷받침하는 세 갈래의 사업 트랙 — 하드웨어 유통 매출, Edge AI 공급망, 그리고 대한민국 AI 데이터셋 팩토리가 재무 건전성과 업력을 증명합니다.</p>
+      <p class="sec-lede en">Three business tracks that underpin the master roadmap — hardware distribution revenue, an edge AI supply chain, and the Korea AI Dataset Factory prove financial health and track record.</p>
+    </div>
+    <div class="side-grid">
+      <div class="card side">
+        <span class="side-label">Side Roadmap A</span>
+        <h3><span class="ko">AI Factory 청사진 검증 및 DGX Spark 세일즈</span><span class="en">AI Factory Blueprint Validation &amp; DGX Spark Sales</span></h3>
+        <ol class="flow">
+          <li><span class="when mono">2026.08 – 10</span>
+            <p class="ko">자체 데이터센터 내 PoC 환경 세팅 및 검증</p>
+            <p class="en">PoC environment set up and validated in the in-house data center</p></li>
+          <li><span class="when mono">2026.11 – 12</span>
+            <p class="ko">PoC 성공 레퍼런스 확보 및 국내 B2B(기상·환경·지자체 등) 영업 개시</p>
+            <p class="en">PoC success reference secured; domestic B2B sales begin (weather, environment, municipalities)</p></li>
+          <li><span class="when mono">2027.01</span>
+            <p class="ko">Kweather Weather AI Factory 구축 사업 공식 선언</p>
+            <p class="en">Kweather Weather AI Factory project officially announced</p></li>
+          <li><span class="when mono">2027.Q1 –</span>
+            <p class="ko">확고한 레퍼런스 기반 DGX Spark 본격 유통 확대로 Cash-Cow 확보</p>
+            <p class="en">Reference-backed DGX Spark distribution scales up into a cash-cow business</p></li>
+        </ol>
+        <div class="strategy">
+          <span class="ko"><b>핵심 전략</b> — 검증된 기술력과 하드웨어 유통 매출을 기반으로, 글로벌 VC에게 탄탄한 재무 건전성과 업력을 증명합니다.</span>
+          <span class="en"><b>Core strategy</b> — Proven technology plus hardware distribution revenue demonstrate solid financials and track record to global VCs.</span>
+        </div>
+      </div>
+      <div class="card side">
+        <span class="side-label">Side Roadmap B</span>
+        <h3><span class="ko">Aerobotics AI Aerobot — NVIDIA Jetson 공급</span><span class="en">Aerobotics AI Aerobot — NVIDIA Jetson Supply</span></h3>
+        <ol class="flow">
+          <li><span class="when mono">2026.08 – 10</span>
+            <p class="ko">Aerobotics 향 Jetson DevKit 인도 및 내부 PoC 연동 테스트</p>
+            <p class="en">Jetson DevKits delivered to Aerobotics; internal PoC integration testing</p></li>
+          <li><span class="when mono">2026.11 – 12</span>
+            <p class="ko">탑재 안정성 평가 완료 및 상용 모델 적용 스펙 확정</p>
+            <p class="en">Onboard stability evaluation completed; production model specs finalized</p></li>
+          <li><span class="when mono">2027.02 –</span>
+            <p class="ko">Aerobotics 양산 로봇 대상 Jetson 모듈 정식 공급 가동</p>
+            <p class="en">Official Jetson module supply begins for Aerobotics production robots</p></li>
+        </ol>
+        <div class="strategy">
+          <span class="ko"><b>핵심 전략</b> — 드론/로보틱스 Edge AI 하드웨어 독점 공급망을 구축하여, 글로벌 기술 Value Chain 장악력을 VC에게 어필합니다.</span>
+          <span class="en"><b>Core strategy</b> — An exclusive drone/robotics edge AI hardware supply chain showcases BNi&amp;C's grip on the global tech value chain.</span>
+        </div>
+      </div>
+      <div class="card side" style="grid-column:1/-1">
+        <span class="side-label">Side Roadmap C</span>
+        <h3><span class="ko">대한민국 AI 데이터셋 팩토리 — YTN·유진그룹·국립중앙도서관</span><span class="en">Korea AI Dataset Factory — YTN · Eugene Group · National Library of Korea</span></h3>
+        <ol class="flow">
+          <li><span class="when mono">2026.09</span>
+            <p class="ko">YTN·유진그룹 미팅 — YTN 뉴스영상 학습·정제 공동사업 협약 및 유진그룹 데이터센터 구축 공동사업 협약 체결</p>
+            <p class="en">YTN and Eugene Group meetings — joint-business agreements signed on YTN news-video training/refinement and Eugene Group data center construction</p></li>
+          <li><span class="when mono ko">2026.09 초 –</span><span class="when mono en">Early 2026.09 –</span>
+            <p class="ko">영상 학습용 시장 진출 — 영상 전용 서버 판매 시장 영업 활동 즉시 개시</p>
+            <p class="en">Entering the video-training market — video-dedicated server sales begin immediately</p></li>
+          <li><span class="when mono ko">2026.09 중</span><span class="when mono en">Mid 2026.09</span>
+            <p class="ko">경북 구미 지역 3GW급 데이터센터 구축 목표 — 경상북도·구미시장 MOU 체결</p>
+            <p class="en">3GW-class data center targeted in Gumi, North Gyeongsang Province — MOU signed with the province and the Mayor of Gumi</p></li>
+          <li><span class="when mono">2026.09 –</span>
+            <p class="ko">YTN·유진그룹·국립중앙도서관과 함께 AI 파운데이션 모델 학습용 대한민국 데이터셋 가공 사업 전개</p>
+            <p class="en">Korean dataset curation for AI foundation-model training, together with YTN, Eugene Group, and the National Library of Korea</p></li>
+        </ol>
+        <div class="strategy">
+          <span class="ko"><b>핵심 전략</b> — 방송·출판 원천 데이터와 초대형 데이터센터를 결합해, AI 파운데이션 모델 학습용 대한민국 데이터셋 Value Chain을 선점합니다.</span>
+          <span class="en"><b>Core strategy</b> — Combining broadcast and library source data with hyperscale data centers to lead the Korean dataset value chain for AI foundation-model training.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ 6. NASDAQ Journey ═══════════ -->
+  <section id="nasdaq">
+    <div class="journey">
+      <div class="sec-head" style="margin-bottom:0">
+        <span class="sec-eyebrow">06 · Road to NASDAQ</span>
+        <h2><span class="ko">NASDAQ 상장을 위한 글로벌 여정</span><span class="en">The Global Journey to a NASDAQ Listing</span></h2>
+        <p class="sec-lede ko">국내 시장을 넘어 세계 최대 자본 시장인 NASDAQ 진출을 최종 목표로, ‘자체 업력 확보 → 미국 거점 마련 → 글로벌 자본 유치 → IPO’의 단계를 철저히 밟습니다.</p>
+        <p class="sec-lede en">Beyond the domestic market, the end goal is NASDAQ — following a disciplined path of building track record, establishing a U.S. base, raising global capital, and going public.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">STEP 01</span>
+          <h3><span class="ko">핵심 역량 입증 및<br>기초 체력 확보</span><span class="en">Prove Core Capability,<br>Build Fundamentals</span></h3>
+          <div class="period mono">2026.08 – 2026.12</div>
+          <ul class="ko">
+            <li><b>Figure Technologies</b> — NDA 체결로 파트너십 개시, 미국 자본 시장 진출을 위한 네트워킹 교두보 확보</li>
+            <li><b>Kweather</b> — 자체 데이터센터 내 PoC 환경 세팅 및 검증</li>
+            <li><b>하드웨어 유통</b> — 초기 DGX·Jetson B2B 유통을 통한 재무적 실적(업력) 축적</li>
+          </ul>
+          <ul class="en">
+            <li><b>Figure Technologies</b> — partnership launched with an NDA, securing a networking bridgehead into U.S. capital markets</li>
+            <li><b>Kweather</b> — PoC environment set up and validated in the in-house data center</li>
+            <li><b>Hardware distribution</b> — financial track record built through early DGX and Jetson B2B sales</li>
+          </ul>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step">
+          <span class="step-num">STEP 02</span>
+          <h3><span class="ko">미국 거점 확보 및<br>글로벌 평판 구축</span><span class="en">U.S. Base &amp;<br>Global Reputation</span></h3>
+          <div class="period mono">2027.01 – 2027.03</div>
+          <ul class="ko">
+            <li>BNi&amp;C 미국 지사(법인) 설립 완료</li>
+            <li>NVIDIA GTC 2027 공식 세션 발표를 통한 글로벌 기술력 입증</li>
+          </ul>
+          <ul class="en">
+            <li>BNi&amp;C U.S. entity established</li>
+            <li>Global technical credibility proven with an official NVIDIA GTC 2027 session</li>
+          </ul>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step">
+          <span class="step-num">STEP 03</span>
+          <h3><span class="ko">글로벌 VC<br>투자 유치</span><span class="en">Global VC<br>Investment</span></h3>
+          <div class="period"><span class="mono ko">2027 중순 – 하반기</span><span class="mono en">Mid – late 2027</span></div>
+          <ul class="ko">
+            <li>GTC 성과 및 미국 지사 네트워킹을 통한 Top-tier VC 투자 유치</li>
+            <li>Scale-up 자금 확보 및 미국 자본 시장 내 네트워크 형성</li>
+          </ul>
+          <ul class="en">
+            <li>Top-tier VC investment secured via GTC momentum and U.S. entity networking</li>
+            <li>Scale-up capital raised; network built in U.S. capital markets</li>
+          </ul>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step">
+          <span class="step-num">STEP 04</span>
+          <h3><span class="ko">NASDAQ<br>IPO 추진</span><span class="en">NASDAQ<br>IPO</span></h3>
+          <div class="period"><span class="mono ko">2028 및 그 이후</span><span class="mono en">2028 and beyond</span></div>
+          <ul class="ko">
+            <li>글로벌 주간사 선정 및 SEC 상장 예비심사 청구 준비</li>
+            <li>글로벌 AI 인프라 선도 기업으로서 기업가치(Valuation) 극대화</li>
+          </ul>
+          <ul class="en">
+            <li>Global underwriter selection; SEC pre-listing review preparation</li>
+            <li>Valuation maximized as a leading global AI infrastructure company</li>
+          </ul>
+          <div class="step-bar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <b>BNi&amp;C <span class="ko">비엔아이엔씨</span></b> ·
+  <span class="ko">AI 인프라 및 글로벌 로드맵 백서 (Project Whitepaper)</span>
+  <span class="en">AI Infrastructure &amp; Global Roadmap — Project Whitepaper</span>
+  · 2026 – 2028
+</footer>
+
+<script>
+  function setLang(l){
+    document.documentElement.setAttribute('data-lang', l);
+    document.documentElement.lang = l;
+    document.getElementById('btn-ko').setAttribute('aria-pressed', l==='ko' ? 'true':'false');
+    document.getElementById('btn-en').setAttribute('aria-pressed', l==='en' ? 'true':'false');
+    try{ localStorage.setItem('bnic-lang', l); }catch(e){}
+  }
+  setLang(document.documentElement.getAttribute('data-lang') || 'ko');
+</script>
