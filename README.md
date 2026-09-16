@@ -3,9 +3,10 @@
 16:9 가로 슬라이드 덱. 한/영 동시 수록, **19장**.
 고연령 독자 기준으로 글자를 키우고 여백을 걷어낸 구성이다.
 
-- 라이브: https://bninc.connectx402.io (= https://bnic-whitepaper.vercel.app)
-  - **이전 예정: `roadmap.bnaif.com`** – Cloudflare `bnaif.com` 존에 `roadmap` CNAME → `cname.vercel-dns.com`,
-    Vercel Domains 에 도메인 추가. 소스에 자기 도메인을 참조하는 곳이 없으므로 코드 수정은 필요 없다.
+- 라이브: **https://roadmap.bnaif.com** (2026-09-16 이전 완료, Let's Encrypt 인증서 발급됨)
+  - Cloudflare `bnaif.com` 존의 `roadmap` CNAME → `cname.vercel-dns.com` + Vercel Domains 등록.
+  - 구 주소 `bninc.connectx402.io` 도 아직 같은 사이트를 서빙한다. 정리하려면 Vercel Domains 에서
+    `roadmap.bnaif.com` 으로 **Redirect** 를 걸 것(기존 공유 링크가 안 깨진다).
 - Vercel 프로젝트: `bnic-whitepaper` / 팀 `wellbianlabs` (`prj_9VvPbpzboz9t1a5NBT4nLYXW82FB`)
 
 ## 구성
@@ -73,15 +74,15 @@ python -m http.server 3505 --directory D:/Program/bnic-whitepaper
 
 GitHub: https://github.com/wellbianlabs/bnic-whitepaper (기본 브랜치 `main`)
 
-**Vercel 프로젝트에 Git 이 연결돼 있으면** `git push origin main` 으로 배포된다. 그게 정상 경로다.
+**Git 이 연결돼 있다(2026-09-16).** 배포는 `git push origin main` 하나면 된다. 다른 경로를 쓰지 말 것.
 
-연결이 아직 안 돼 있다면: Vercel → `bnic-whitepaper` → Settings → Git → Connect Git Repository
-→ `wellbianlabs/bnic-whitepaper` → Production Branch `main`.
+주의: Git 을 연결해도 그 시점에 자동 배포가 돌지는 않는다. **첫 배포는 push 로 띄워야 한다.**
 
-### 폴백: MCP 인라인 배포
+### 폴백: MCP 인라인 배포 (되도록 쓰지 말 것)
 
-Git 이 연결되기 전에는 Vercel MCP `deploy_to_vercel` 로 파일 내용을 인라인 전달하는 수밖에 없었다.
-(이 PC에 Vercel CLI 도 API 토큰도 없다.) 이 경로를 쓸 일이 생기면:
+Git 연결 전에는 Vercel MCP `deploy_to_vercel` 로 파일 내용을 인라인 전달하는 수밖에 없었다.
+(이 PC에 Vercel CLI 도 API 토큰도 없다.) 이 경로는 **바이너리를 못 올리고**(og-cover.jpg 가 그래서 빠졌다),
+파일을 빠뜨리기 쉬워 실제로 사이트를 세 번 깨뜨렸다. 부득이 쓸 일이 생기면:
 
 - `name: "bnic-whitepaper"`, `target: "production"`, `teamId: "team_1CxBKfKNMGIn7MdOC1aRWAg0"`
 - **세 파일(`index.html`, `assets/deck.css`, `assets/deck.js`)을 한 번의 호출에 모두 담을 것.**
