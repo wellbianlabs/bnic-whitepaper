@@ -3,6 +3,8 @@
 16:9 가로 슬라이드 덱. 한/영 동시 수록, 18장.
 
 - 라이브: https://bninc.connectx402.io (= https://bnic-whitepaper.vercel.app)
+  - **이전 예정: `roadmap.bnaif.com`** – Cloudflare `bnaif.com` 존에 `roadmap` CNAME → `cname.vercel-dns.com`,
+    Vercel Domains 에 도메인 추가. 소스에 자기 도메인을 참조하는 곳이 없으므로 코드 수정은 필요 없다.
 - Vercel 프로젝트: `bnic-whitepaper` / 팀 `wellbianlabs` (`prj_9VvPbpzboz9t1a5NBT4nLYXW82FB`)
 
 ## 구성
@@ -68,15 +70,21 @@ python -m http.server 3505 --directory D:/Program/bnic-whitepaper
 
 ## 배포
 
-이 프로젝트는 **Git 연결이 없다.** Vercel CLI도, API 토큰도 이 PC에 없다.
-배포는 Vercel MCP `deploy_to_vercel` 로 파일 내용을 인라인 전달하는 방식뿐이다.
+GitHub: https://github.com/wellbianlabs/bnic-whitepaper (기본 브랜치 `main`)
+
+**Vercel 프로젝트에 Git 이 연결돼 있으면** `git push origin main` 으로 배포된다. 그게 정상 경로다.
+
+연결이 아직 안 돼 있다면: Vercel → `bnic-whitepaper` → Settings → Git → Connect Git Repository
+→ `wellbianlabs/bnic-whitepaper` → Production Branch `main`.
+
+### 폴백: MCP 인라인 배포
+
+Git 이 연결되기 전에는 Vercel MCP `deploy_to_vercel` 로 파일 내용을 인라인 전달하는 수밖에 없었다.
+(이 PC에 Vercel CLI 도 API 토큰도 없다.) 이 경로를 쓸 일이 생기면:
 
 - `name: "bnic-whitepaper"`, `target: "production"`, `teamId: "team_1CxBKfKNMGIn7MdOC1aRWAg0"`
 - **세 파일(`index.html`, `assets/deck.css`, `assets/deck.js`)을 한 번의 호출에 모두 담을 것.**
-  Vercel 배포는 전체 스냅샷이라, 일부만 보내면 나머지가 사라진다.
-
-Git 연결을 붙이면 이 제약이 사라진다: GitHub 레포를 만들어 푸시한 뒤
-Vercel 프로젝트 Settings → Git 에서 연결하면 이후에는 `git push` 로 배포된다.
+  Vercel 배포는 전체 스냅샷이라, 일부만 보내면 나머지가 사라진다. 실제로 이걸로 두 번 깨뜨렸다.
 
 ## 편집 시 주의
 
