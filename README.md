@@ -86,6 +86,20 @@ Git 이 연결되기 전에는 Vercel MCP `deploy_to_vercel` 로 파일 내용�
 - **세 파일(`index.html`, `assets/deck.css`, `assets/deck.js`)을 한 번의 호출에 모두 담을 것.**
   Vercel 배포는 전체 스냅샷이라, 일부만 보내면 나머지가 사라진다. 실제로 이걸로 두 번 깨뜨렸다.
 
+## 공유 카드 (OG)
+
+- 이미지: `assets/img/og-cover.jpg` (1200x630, 약 45KB). 생성기는 `scripts/make-og.py`.
+  덱 표지의 디자인 언어(딥 그린블랙 + 초록 글로우 + Pretendard)를 그대로 쓴다.
+  **헤드라인이나 마일스톤 문구를 바꾸면 스크립트를 다시 돌릴 것**: `python scripts/make-og.py`
+  Pretendard OTF 는 `.fonts/` 에 자동으로 받아둔다(커밋하지 않는다).
+- 메타는 `index.html` `<head>` 에 있고 **절대 URL 4곳 + canonical** 이 `https://roadmap.bnaif.com` 기준이다.
+  도메인을 또 옮기면 이 5곳을 같이 고칠 것.
+- **속성값의 `&` 는 반드시 `&amp;` 로 이스케이프한다**(`BNi&amp;C`). HTML5 파서는 봐주지만
+  크롤러 파서는 `&C` 를 개체 참조로 오독할 수 있다.
+- **카카오톡은 OG 를 강하게 캐시한다.** 내용을 고친 뒤에는
+  https://developers.kakao.com/tool/debugger/sharing 에서 캐시 초기화를 해야 새 카드가 뜬다.
+- og:image 는 절대 URL이라 **해당 도메인이 살아 있어야** 미리보기가 뜬다.
+
 ## 편집 시 주의
 
 - 슬라이드 내용 영역은 **1280x720 에서 세로 668px**(= 720 - 하단 패딩 52)이 한계다.
